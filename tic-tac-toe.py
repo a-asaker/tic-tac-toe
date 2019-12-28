@@ -1,21 +1,18 @@
 #!/usr/bin/env python3
-#Coded by : A_Asaker
+# Coded by : A_Asaker
 
 import os
 from sys import platform
 
-#Get The Platform To Know Either Using Curses Library Or Not
-#pf==platform -not Power Factor- :D
+#Get The Platform To Determine Either Using Curses Library Or Not
+#pf=platform -not Power Factor- :D
 pf='windows' if platform.find('win')!=-1 and platform != 'darwin' else 'unix'
 
-#Graph Line
-g_line="{:^5}|{:^5}|{:^5}"
-#Spacer Line
-s_line="{:^5}+{:^5}+{:^5}"
-players=['X','Y']
+players=['X','O']
+n=3
 role=0
 end=0
-score={'X':0,'Y':0}
+score={'X':0,'O':0}
 
 #Use Curses Library In Case Of Linux Or Mac
 if pf == 'unix':
@@ -52,16 +49,15 @@ def input_crs(msg,length):
 #Draw The Game Graph With The Last Played Turns
 def print_game():
  print_crs(x=0,y=0,string="")
- for i in range(3):
-  i-0 and i-3 and (stdscr.addstr("\t\t") if pf=='unix' else print("\t\t",end=''))
-  i-0 and i-3 and print_crs(s_line.format("-"*5,"-"*5,"-"*5),curses.color_pair(1) if pf =='unix' else None)
+ for i in range(n):
+  i-0 and i-n and (stdscr.addstr("\t\t") if pf=='unix' else print("\t\t",end=''))
+  i-0 and i-n and print_crs(g_line.format(f='+',*["-"*5 for i in range(n+1)]),curses.color_pair(1) if pf =='unix' else None)
   stdscr.addstr("\t\t") if pf=='unix' else print("\t\t",end='')
-  print_crs(g_line.format(*game_vars[i]),curses.color_pair(1) if pf == 'unix' else None)
+  print_crs(g_line.format(f='|',*game_vars[i]),curses.color_pair(1) if pf == 'unix' else None)
 
 #Check If There Is A Winner
 def check_for_winner(pl):
  global score
- n=3
  raws=[game_vars[raw] for raw in range(n)]
  cols=[]
  f_diam=[]
@@ -69,7 +65,7 @@ def check_for_winner(pl):
  for z in range(n):
   cols.append([i[z] for i in game_vars])
   f_diam.append(raws[z][z])
-  s_diam.append(raws[z][2-z])
+  s_diam.append(raws[z][n-1-z])
  lines=raws+cols+[f_diam]+[s_diam]
  for line in lines:
   if all([i==pl for i in line]):
@@ -80,13 +76,13 @@ def check_for_winner(pl):
 
 #Check If The Input Position Is Vaild
 def check_input(inp):
- if len(inp)>3:
+ if len(inp)>n:
   print_crs(" [x] Too Long Input")
   return(0)
  try:
   raw=int(inp[0])-1
   col=int(inp[-1])-1
-  if raw > 2 or col > 2:
+  if raw > n-1 or col > n-1:
    raise
   if game_vars[raw][col] in players:
    print_crs(" [x] This Position Is Already Played")
@@ -120,8 +116,17 @@ def edit_game(play,pl):
 if __name__=="__main__":
  try:
   while not end:
-   #Game Array
-   game_vars=[['1-1','1-2','1-3'],['2-1','2-2','2-3'],['3-1','3-2','3-3']]
+   size_ch=input_crs(" [?] Do You Want To Change The Grid Size Which Is {} ?[n/<New Size>]".format(n),1)
+   n=n if size_ch=='n' or size_ch=='0' or size_ch==''  else int(size_ch)
+   #Graph Line
+   g_line=("{:^5}{f}"*n)[:-3]
+   #Game Array Creation
+   game_vars=[]
+   for r in range(n):
+    l=[]
+    for c in range(n):
+     l.append(str(r+1)+'-'+str(c+1))
+    game_vars.append(l)
    winner=0
    #Number Of Plays
    plays_num=0
@@ -137,10 +142,10 @@ if __name__=="__main__":
     print_game()
     plays_num+=1
     winner=check_for_winner(players[role])
-    if plays_num==9 and not winner:
+    if plays_num==n**2 and not winner:
      print_crs("\n [&] Drawn!")
      break
-    role = not role
+    role = not role if not winner else role
    ans=input_crs("\n [?] Would You Like To Re-match?[y/n] ",1)
    if ans=='n':end=1
   #Remove All Curses Configurations
@@ -149,7 +154,8 @@ if __name__=="__main__":
    stdscr.keypad(0)
    curses.echo()
    curses.endwin()
-  print("\n [*] Score:\n\n ~ Player[X]: {} Point/s\n ~ Player[Y]: {} Point/s\n".format(score['X'],score['Y'])) 
+  print("\n [*] Score:\n\n ~ Player[X]: {} Point/s\n ~ Player[O]: {} Point/s\n".format(score['X'],score['O'])) 
+  input(' [-] Hit Enter To Quit ...') if pf=='windows' else ''
  except:
   if pf == 'unix':
    curses.nocbreak()
