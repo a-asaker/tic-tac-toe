@@ -5,7 +5,7 @@ By : a-asaker
 
 
 # How To Play:
-Just Enter the Position You Want to Put Either `X` Or `Y` In, As It's Displayed On the Game's Graph
+Just Enter the Position You Want to Put Either `X` Or `O` In, As It's Displayed On the Game's Graph
 
                  1-1 | 1-2 | 1-3
                 -----+-----+-----
