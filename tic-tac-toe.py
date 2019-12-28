@@ -13,6 +13,7 @@ n=3
 role=0
 end=0
 score={'X':0,'O':0}
+tie=0
 
 #Use Curses Library In Case Of Linux Or Mac
 if pf == 'unix':
@@ -143,7 +144,8 @@ if __name__=="__main__":
     plays_num+=1
     winner=check_for_winner(players[role])
     if plays_num==n**2 and not winner:
-     print_crs("\n [&] Drawn!")
+     print_crs("\n [&] Tie!")
+     tie+=1
      break
     role = not role if not winner else role
    ans=input_crs("\n [?] Would You Like To Re-match?[y/n] ",1)
@@ -154,7 +156,7 @@ if __name__=="__main__":
    stdscr.keypad(0)
    curses.echo()
    curses.endwin()
-  print("\n [*] Score:\n\n ~ Player[X]: {} Point/s\n ~ Player[O]: {} Point/s\n".format(score['X'],score['O'])) 
+  print("\n [*] Score:\n\n ~ Player[X]: {} Point/s\n ~ Player[O]: {} Point/s\n ~ Ties : {} \n".format(score['X'],score['O'],tie)) 
   input(' [-] Hit Enter To Quit ...') if pf=='windows' else ''
  except:
   if pf == 'unix':
