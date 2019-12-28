@@ -1,5 +1,8 @@
 # Tic Tac Toe:
+
 Cross-Platform 2-Players Console Tic Tac Toe Game, Coded With Python3.
+
+* At The First Game Only The `X` Player Will Start, After That The Winner Will Start the Game.
 
 By : a-asaker
 
