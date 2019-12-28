@@ -141,7 +141,7 @@ if __name__=="__main__":
      print_crs("\n [&] Drawn!")
      break
     role = not role
-   ans=input_crs("\n [?] Whould You Like To Re-match?[y/n] ",1)
+   ans=input_crs("\n [?] Would You Like To Re-match?[y/n] ",1)
    if ans=='n':end=1
   #Remove All Curses Configurations
   if pf=='unix':
