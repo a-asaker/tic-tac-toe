@@ -16,12 +16,11 @@ By : a-asaker
                 -----+-----+-----
                  3-1 | 3-2 | 3-3
 
-
 * Ex :  
        
        * `1-3 or 13`,
        * `3-3 or 33 or 3` And So On ...
        
-- To Re-match Enter `y` Or Just Hit `Enter` After The Game Ends.
+- To Re-match Pass `y` Or Just Hit `Enter` After The Game Ends.
 
-- To Exit Enter `n` After The Game Ends.
+- To Exit Pass `n` After The Game Ends.
